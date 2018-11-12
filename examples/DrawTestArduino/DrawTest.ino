@@ -1,6 +1,6 @@
-#include "U8g2EmulatorClient.h"
+#include <GlcdEmulatorClient.h>
 
-U8g2EmulatorClient *u8g2;
+GlcdEmulatorClient *u8g2;
 
 void sendByteToSerial(uint8_t data);
 
@@ -12,14 +12,14 @@ void setup() {
     Serial.begin(2000000);
     //parallel: u8g2_Setup_st7920_p_128x64_f
     //spi: u8g2_Setup_st7920_s_128x64_f
-    u8g2 = new U8g2EmulatorClient(U8G2_R0, u8g2_Setup_st7920_p_128x64_f, sendByteToSerial);
+    u8g2 = new GlcdEmulatorClient(U8G2_R0, u8g2_Setup_st7920_p_128x64_f, sendByteToSerial);
     u8g2->begin();
     u8g2->setFont(u8g2_font_10x20_t_arabic);
 }
 
 void loop() {
     u8g2->clearBuffer();
-    drawU8G2Logo(u8g2, x++);
+    //drawU8G2Logo(u8g2, x++);
     u8g2->setFont(u8g2_font_5x8_tr);
     u8g2->drawStr(10, 40, "Hello YouTube");
     u8g2->sendBuffer();
@@ -29,6 +29,10 @@ void loop() {
 
 void sendByteToSerial(uint8_t data) {
     Serial.write(data);
+}
+
+void sendByteToTcpIp(uint8_t data) {
+
 }
 
 void drawU8G2Logo(U8G2 *u8g2, u8g2_uint_t offset) {

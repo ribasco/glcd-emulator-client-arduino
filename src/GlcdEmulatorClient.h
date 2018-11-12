@@ -16,11 +16,11 @@ typedef void (*u8g2_setup_cb)(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_
 
 typedef void (*u8g2_bytesend_cb)(uint8_t data);
 
-class U8g2EmulatorClient : public U8G2 {
+class GlcdEmulatorClient : public U8G2 {
 public:
     static u8g2_bytesend_cb bytecb;
 
-    U8g2EmulatorClient(const u8g2_cb_t *rotation, u8g2_setup_cb setup_cb, u8g2_bytesend_cb bytesend_cb);
+    GlcdEmulatorClient(const u8g2_cb_t *rotation, u8g2_setup_cb setup_cb, u8g2_bytesend_cb bytesend_cb);
 
     void sendBuffer(void);
 
