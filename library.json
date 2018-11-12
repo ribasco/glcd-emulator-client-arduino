@@ -1,0 +1,25 @@
+{
+  "name": "U8g2 GLCD Emulator Client",
+  "description": "The client library for the graphics lcd emulator project (https://github.com/ribasco/glcd-emulator). It wraps around the popular U8g2 graphics library. Communication between the client and emulator is established via Serial or TCP/IP",
+  "keywords": "glcd-emulator, emulator, client, u8g2",
+  "version": "0.1.0",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ribasco/glcd-emulator-client-arduino.git"
+  },
+  "authors": [
+    {
+      "name": "Rafael Ibasco",
+      "email": "ribasco@gmail.com",
+      "url": "https://github.com/ribasco",
+      "maintainer": true
+    }
+  ],
+  "dependencies": {
+    "name": "U8g2",
+    "authors": "oliver",
+    "frameworks": "arduino"
+  }
+}
