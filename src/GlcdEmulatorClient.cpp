@@ -49,3 +49,10 @@ void GlcdEmulatorClient::sendBuffer() {
 }
 
 
+void COMM_SERIAL(uint8_t data) {
+    Serial.write(data);
+}
+
+void COMM_WIFI(uint8_t data) {
+
+}
