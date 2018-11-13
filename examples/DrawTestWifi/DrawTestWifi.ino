@@ -1,4 +1,12 @@
 #include <GlcdEmulatorClient.h>
+#include <WiFi.h>
+
+#define GLCDEMU_HOST "192.168.1.24"
+#define GLCDEMU_PORT 3380
+
+const char* ssid     = "<WIFI SSID>";
+const char* password = "<WIFI PASSWORD>";
+const char* host = "<EMULATOR HOST IP>";
 
 void drawU8G2Logo(u8g2_uint_t offset = 0);
 
@@ -9,12 +17,29 @@ u8g2_uint_t x = 0;
 GlcdEmulatorClient u8g2(U8G2_R0, GLCD_SIZE_128x64, COMM_WIFI);
 
 void setup() {
-    //TODO: Initialize WiFi here
+    Serial.begin(115200);
+    WiFi.begin(ssid, password);
+
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+
+    Serial.println("");
+    Serial.println("WiFi connected");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+
     u8g2.begin();
     u8g2.setFont(u8g2_font_10x20_t_arabic);
 }
 
 void loop() {
+    delay(5000);
+
+    Serial.print("connecting to ");
+    Serial.println(host);
+
     u8g2.clearBuffer();
     drawU8G2Logo(x++);
     u8g2.setFont(u8g2_font_5x8_tr);

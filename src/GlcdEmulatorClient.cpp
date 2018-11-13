@@ -2,8 +2,13 @@
 
 u8g2_bytesend_cb GlcdEmulatorClient::bytecb = nullptr;
 
-GlcdEmulatorClient::GlcdEmulatorClient(const u8g2_cb_t *rotation, u8g2_setup_cb setup_cb,
-                                       u8g2_bytesend_cb bytesend_cb) {
+// Initialize the client library
+#ifdef WiFi_h
+WiFiClient client;
+bool _wifi_initialized = false;
+#endif
+
+GlcdEmulatorClient::GlcdEmulatorClient(const u8g2_cb_t *rotation, u8g2_setup_cb setup_cb, u8g2_bytesend_cb bytesend_cb) {
     GlcdEmulatorClient::bytecb = bytesend_cb;
     setup_cb(&u8g2, rotation, byte_cb, gpio_cb);
 }
@@ -48,11 +53,20 @@ void GlcdEmulatorClient::sendBuffer() {
     U8G2::sendBuffer();
 }
 
-
 void COMM_SERIAL(uint8_t data) {
     Serial.write(data);
 }
 
 void COMM_WIFI(uint8_t data) {
+#if defined(WiFi_h) && defined(GLCDEMU_HOST) && defined(GLCDEMU_PORT)
+    if (!_wifi_initialized) {
+        if (client.connect(GLCDEMU_HOST, GLCDEMU_PORT)) {
+            _wifi_initialized = true;
+        }
+    }
 
+    if (_wifi_initialized) {
+        client.write(data);
+    }
+#endif
 }
