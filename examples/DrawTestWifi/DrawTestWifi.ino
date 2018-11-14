@@ -14,8 +14,6 @@ u8g2_uint_t x = 0;
 // Initialize the client library
 WiFiClient client;
 
-//Note: You can also use the u8g2 c contructor instead of GLCD_SIZE_128x64 (e.g. u8g2_Setup_st7920_p_128x64_f)
-//Just remember that you can only use FULL-BUFFER constructors, methods that ends with '*_f'
 GlcdEmulatorClient u8g2(U8G2_R0, GLCD_SIZE_128x64, COMM_WIFI);
 
 bool _connected = false;
