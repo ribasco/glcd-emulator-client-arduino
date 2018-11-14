@@ -2,11 +2,13 @@
 #define CPP_U8G2EMULATORCLIENT_H
 
 #include <U8g2lib.h>
+#include <WiFi.h>
 
 #define MSG_START 0xFE
 #define MSG_DC_0 0xE0
 #define MSG_DC_1 0xE8
 #define MSG_BYTE_SEND 0xEC
+
 #define GLCD_SIZE_104x64
 #define GLCD_SIZE_128x128
 #define GLCD_SIZE_128x32
@@ -49,9 +51,10 @@
 #define GLCD_SIZE_96x72
 #define GLCD_SIZE_96x96
 
-void COMM_SERIAL(uint8_t data);
-
-void COMM_WIFI(uint8_t data);
+enum GlcdClientTransport : uint8_t {
+    COMM_SERIAL = 0,
+    COMM_WIFI = 1
+};
 
 typedef void (*u8g2_setup_cb)(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 
@@ -59,16 +62,24 @@ typedef void (*u8g2_bytesend_cb)(uint8_t data);
 
 class GlcdEmulatorClient : public U8G2 {
 public:
-    static u8g2_bytesend_cb bytecb;
+    static u8g2_bytesend_cb sendByte;
 
-    GlcdEmulatorClient(const u8g2_cb_t *rotation, u8g2_setup_cb setup_cb, u8g2_bytesend_cb bytesend_cb);
+    //u8g2_bytesend_cb bytesend_cb
+    GlcdEmulatorClient(const u8g2_cb_t *rotation, u8g2_setup_cb setup_cb, GlcdClientTransport transport);
 
     void sendBuffer(void);
 
+    void setWifiClient(WiFiClient *client);
 private:
+    static WiFiClient *_client;
+
     static uint8_t byte_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
     static uint8_t gpio_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+
+    static void _byteSend_Serial(uint8_t data);
+
+    static void _byteSend_WiFi(uint8_t data);
 };
 
 #endif //CPP_U8G2EMULATORCLIENT_H
