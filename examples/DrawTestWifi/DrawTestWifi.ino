@@ -14,7 +14,8 @@ u8g2_uint_t x = 0;
 // Initialize the client library
 WiFiClient client;
 
-GlcdEmulatorClient u8g2(U8G2_R0, GLCD_SIZE_128x64, COMM_WIFI);
+//Args: U8g2 Display Rotation/U8g2 Constructor/Data transport (COMM_SERIAL or COMM_WIFI)
+GlcdEmulatorClient u8g2(U8G2_R0, u8g2_Setup_st7920_p_128x64_f, COMM_WIFI);
 
 bool _connected = false;
 
