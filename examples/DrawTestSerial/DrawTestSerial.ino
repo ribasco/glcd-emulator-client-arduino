@@ -4,24 +4,22 @@ void drawU8G2Logo(u8g2_uint_t offset = 0);
 
 u8g2_uint_t x = 0;
 
-uint8_t state = 0;
-
 //Args: U8g2 Display Rotation/U8g2 Constructor/Data transport method (COMM_SERIAL or COMM_WIFI)
 //Note: Use FULL BUFFER constructors ONLY (ending with _f)
-GlcdRemoteClient u8g2(U8G2_R0, u8g2_Setup_st7920_p_128x64_f, COMM_SERIAL);
+GlcdRemoteClient u8g2(U8G2_R0, u8g2_Setup_t6963_160x80_f, COMM_SERIAL);
 
 const int ledPin =  13;
 
 unsigned long previousMillis = 0;
 
-const long interval = 500;
+const long interval = 100;
 
 uint8_t ledState = LOW;
 
 void setup() {
     pinMode(ledPin, OUTPUT);
-    //Initialize Serial (We use 2000000 baud rate for maximum performance)
-    Serial.begin(2000000);
+    //Initialize Serial (In this test, I am using Arduino ATMEGA 2560 with maximum 500000 baud rate setting. For uno you can use the 2000000 baudrate)
+    Serial.begin(500000);
     //Call begin: this method will send a request to the host (simulator) and will block until it receives the acknowledgement
     u8g2.begin();
     u8g2.setFont(u8g2_font_10x20_t_arabic);
@@ -29,9 +27,9 @@ void setup() {
 
 void loop() {
     u8g2.clearBuffer();
-    drawU8G2Logo(0);
+    drawU8G2Logo(x++);
     u8g2.setFont(u8g2_font_5x8_tr);
-    u8g2.drawStr(0, 40, "Hello from Arduino");
+    u8g2.drawStr(x, 40, "Hello from Arduino");
     u8g2.sendBuffer();
     if (x > 128)
         x = 0;

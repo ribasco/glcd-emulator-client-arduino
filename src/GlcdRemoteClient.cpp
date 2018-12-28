@@ -25,14 +25,21 @@ bool GlcdRemoteClient::begin() {
     bool initialized = U8G2::begin();
     if (initialized && (_transport == GlcdClientTransport::COMM_SERIAL)) {
         while (!_acknowledged) {
+            //Send request to the host
             Serial.write(MSG_REQ);
+            Serial.flush();
+
             if (Serial.available() > 0) {
                 int ack = Serial.read();
                 if (ack == MSG_ACK) {
                     _acknowledged = true;
                 }
             }
-            delay(1000);
+
+            //Pulse the system led to indicate handshake activity
+            blinkLed(50);
+            blinkLed(50);
+            delay(800);
         }
         _started = true;
     }
@@ -44,13 +51,14 @@ void GlcdRemoteClient::sendBuffer() {
         return;
     U8G2::sendBuffer();
     uint8_t *data = U8G2::getBufferPtr();
-    uint8_t value;
+    //data++;
+    uint8_t value = *data;
     int size = this->_buffer_size;
     while (size > 0) {
-        value = *data;
-        data++;
-        size--;
         sendByte(value);
+        data++;
+        value = *data;
+        size--;
     }
 }
 
@@ -67,6 +75,14 @@ void GlcdRemoteClient::_byteSend_Serial(uint8_t data) {
 void GlcdRemoteClient::setWifiClient(WiFiClient *client) {
     _client = client;
 }
+
+void GlcdRemoteClient::blinkLed(uint16_t interval) {
+    digitalWrite(13, HIGH);
+    delay(interval);
+    digitalWrite(13, LOW);
+    delay(interval);
+}
+
 
 /*
 void GlcdRemoteClient::sendSize(int size) {

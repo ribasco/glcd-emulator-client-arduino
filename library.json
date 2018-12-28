@@ -1,8 +1,8 @@
 {
-  "name": "U8g2 GLCD Emulator Client",
+  "name": "U8g2 GLCD Remote Client",
   "description": "The client library for the graphics lcd emulator/simulator project (https://github.com/ribasco/glcd-emulator). It wraps around the popular U8g2 graphics library. Communication between the client and emulator is established via Serial or TCP/IP",
   "keywords": "glcd, emulator, client, u8g2, arduino, oled, e-ink, lcd, virtual, simulation, monochrome, 8-bit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "frameworks": "arduino",
   "platforms": "*",
   "repository": {

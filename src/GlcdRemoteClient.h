@@ -6,6 +6,7 @@
 
 #define MSG_REQ 0x7B
 #define MSG_ACK 0x7C
+#define TIMEOUT 5
 
 enum GlcdClientTransport : uint8_t {
     COMM_SERIAL = 0,
@@ -47,6 +48,9 @@ private:
 
     int _buffer_size;
 
+    uint16_t _retries;
+
+    void blinkLed(uint16_t interval);
     //void sendSize(int size);
 };
 
